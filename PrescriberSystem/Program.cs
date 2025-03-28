@@ -1,5 +1,6 @@
 using PrescriberSystem;
 using PrescriberSystem.Enums;
+using PrescriberSystem.ExportFiles;
 
 
 //Create COVID-19
@@ -26,6 +27,6 @@ facade.AddPotentialDisease("Attractive", attractivePotentialDisease);
 facade.AddPotentialDisease("SleepApneaSyndrome", sleepApneaSyndromePotentialDisease);
 
 var patientJson = @"[{'Id':'A123456789','Name':'Abe','Gender':1,'Age':18,'Height':174,'Weight':80}]";
-facade.Diagnose(patientJson, "DiagnosticRules.txt", "Abe", "如果病患有打噴嚏、頭痛 (Headache) 和咳嗽 (Cough)等症狀的話", "Test.csv", "csv");
+facade.Diagnose(patientJson, "DiagnosticRules.txt", "Abe", "如果病患有打噴嚏、頭痛 (Headache) 和咳嗽 (Cough)等症狀的話", "Test.csv", new ExportCsv());
 
 Console.ReadLine();

@@ -7,7 +7,7 @@ public class PrescriberSystemFacade
     private PatientDatabase _patientDatabase = new();
     private Prescriber _prescriber;
     public PrescriberSystemFacade() => _prescriber = new Prescriber(_patientDatabase);
-    public void Diagnose(string patientJson, string patientDatabaseFileName, string patientName, string symptoms, string exportFileName, string exportedType)
+    public void Diagnose(string patientJson, string patientDatabaseFileName, string patientName, string symptoms, string exportFileName, IExportFile exportedType)
     {
         if (_patientDatabase.IsDataBaseInit())
             _patientDatabase.InitDatabase();
@@ -21,15 +21,9 @@ public class PrescriberSystemFacade
 
     public void AddPotentialDisease(string name, PotentialDisease potentialDisease) => _prescriber.AddPotentialDisease(name, potentialDisease);
 
-    private void SaveToFile(Patient patient, string fileName, string exportedType)
+    private void SaveToFile(Patient patient, string fileName, IExportFile exportedType)
     {
         var path = $"C:/Users/abehs/source/repos/abehsiao98/PrescriberSystem/{fileName}";
-        var action = exportedType.ToLower() switch
-        {
-            "json" => (Action)(() => { new ExportJson().Export(patient, path); }),
-            "csv" => (Action)(() => { new ExportCsv().Export(patient, path); }),
-            _ => () => { }
-        };
-        action();
+        exportedType.Export(patient, path);
     }
 }
